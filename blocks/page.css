@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.page {
+  background-color: black;
+}
+
+.page__content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto; /*cima/baixo | direita/esquerda*/
+  color: white;
+  font-family: "Inter", sans-serif;
+  max-width: 880px;
+}
+
+@media (max-width: 920px) {
+  .page__content {
+    padding: 0 10px;
+  }
+}

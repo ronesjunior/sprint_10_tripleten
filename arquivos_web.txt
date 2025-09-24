@@ -1,0 +1,12 @@
+blocks/elements.css
+blocks/footer.css
+blocks/header.css
+blocks/main.css
+blocks/page.css
+blocks/popup.css
+blocks/popup_add.css
+blocks/profile.css
+index.html
+pages/index.css
+scripts/index.js
+vendor/normalize.css

@@ -1,0 +1,202 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none; /* Oculto por padrão */
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000000;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup__container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 36px;
+  max-width: 430px;
+  width: 100%;
+  max-height: 100%;
+  position: relative;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+}
+
+.popup__titulo {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 29px;
+  margin: 0 0 54px;
+  color: #000000;
+}
+
+.popup__error_visible {
+  font-size: 12px;
+  color: red;
+  margin-bottom: 13px;
+  transition: 0.3s;
+  display: block;
+  opacity: 1;
+}
+
+.popup__input_type_error {
+  border-bottom: 2px solid red;
+}
+
+/* Botão Salvar */
+.popup__button {
+  margin-top: 48px;
+  width: 358px;
+  height: 50.15px;
+  background-image: url("../images/Submit_Button.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 1px solid #000000;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup__button:hover {
+  background-color: #000000;
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+.popup__button_disabled {
+  background-image: url("../images/button_disabled.png");
+  cursor: not-allowed;
+}
+
+.popup__fechar-botao {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 32px;
+  height: 32px;
+  background-image: url("../images/Close_Icon.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.popup__fechar-botao:hover {
+  opacity: 0.6;
+}
+
+input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.popup__input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 0 0 13px 0;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  background-color: transparent;
+  outline: none;
+  font-family: inherit;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.popup__input:focus {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup__input::placeholder {
+  color: #c4c4c4;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.popup__input:last-of-type {
+  margin-bottom: 0;
+}
+
+@media (max-width: 550px) {
+  .popup__container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 36px;
+    max-width: 300px;
+    width: 100%;
+    max-height: 100%;
+    position: relative;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .popup__fechar-botao {
+    position: absolute;
+    top: -40px;
+    right: 0px;
+    width: 26px;
+    height: 26px;
+    background-image: url("../images/Close_Icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Botão Salvar */
+  .popup__button {
+    margin-top: 48px;
+    width: 100%;
+    height: 50.15px;
+    background-image: url("../images/Submit_Button.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #000000;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .popup__button:hover {
+    background-color: #000000;
+    color: #ffffff;
+    opacity: 0.8;
+  }
+
+  .popup__image {
+    max-width: 75vw;
+    max-height: 75vh;
+    object-fit: contain;
+  }
+
+  .popup__error_visible {
+    font-size: 12px;
+    color: red;
+    margin-bottom: 13px;
+    transition: 0.3s;
+    display: block;
+    opacity: 1;
+  }
+
+  .popup__input_type_error {
+    border-bottom: 2px solid red;
+  }
+
+  .popup__button_disabled {
+    background-image: url("../images/button_disabled.png");
+    cursor: not-allowed;
+  }
+}
