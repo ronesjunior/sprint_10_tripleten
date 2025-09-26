@@ -21,6 +21,6 @@ popupClose.addEventListener("click", closePopup_img);
 // Função para excluir cards
 export const excluir_card = (element) => {
   // recebe a classe .element selecionada com click pelo deleteButton.addEventListener do método _setEventListeners dentro da class card em card.js
-  // console.log(element);
+  console.log("elemento excluído = ", element);
   element.remove();
 };

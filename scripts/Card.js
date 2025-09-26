@@ -2,17 +2,17 @@ export default class Card {
   constructor(name, link, templateSelector, handleImageClick, handleDelete) {
     // Guarda os dados do card
     // .this = new Card(item.name, item.link, ".elements", openPopup_img);
-    this._name = name; // nome da imagem / título do card
-    this._link = link; // link da imagem
+    this._name = name; // propriedade que recebe o nome da imagem / título do card
+    this._link = link; // propriedade que recebe o link da imagem
 
     // Guarda o seletor do template que será usado para criar o card
-    this._templateSelector = templateSelector; // é a classe .elements do HTML
+    this._templateSelector = templateSelector; // propriedade que recebe a classe .elements do HTML
 
     // Função recebida de fora para abrir o popup
-    this._handleImageClick = handleImageClick; // é função openPopup_img do utils.js
+    this._handleImageClick = handleImageClick; // propriedade que recebe que recebe a função openPopup_img do utils.js
 
     // função externa para deletar o card
-    this._handleDelete = handleDelete; // é a função excluir_card do utils.js
+    this._handleDelete = handleDelete; // propriedade que recebe a função excluir_card do utils.js
   }
 
   // Método para pegar e clonar o template
@@ -32,6 +32,11 @@ export default class Card {
     const elementImage = this._element.querySelector(".element__image");
     const likeButton = this._element.querySelector(".element__like-button");
     const deleteButton = this._element.querySelector(".element__lixeira-icon");
+    const salvarButton = this._element.querySelector(
+      ".popup-add-card__criar-botao"
+    );
+    const titleInput = this._element.querySelector(".titulo");
+    const linkInput = this._element.querySelector(".link");
 
     // Clique na imagem → abre popup
     elementImage.addEventListener("click", () => {
@@ -44,20 +49,28 @@ export default class Card {
       icon.classList.toggle("element__like-icon_active");
     });
 
+    // Clique no botão da lixeira → exclui card
     deleteButton.addEventListener("click", () => {
-      this._handleDelete(this._element); // Chama a função xcluir_card do utils.js e atibui o this._element (toda a class .element)
+      this._handleDelete(this._element); // Chama a função excluir_card do utils.js e atibui o this._element (toda a class .element)
     });
   }
 
   // Preenche os dados do card
   generateCard() {
-    this._element = this._getTemplate();
+    // .this é o objeto card criado instanciado com todos os dados item.name,item.link... ou seja, é o new card criado
+    this._element = this._getTemplate(); // nova propriedade this._element criada que recebe o clone de todo o template (<div> com a classe .element)
+    // this (Card) = primeira interação (criou-se nova propriedade this._element)
+    //  ├─ _name = "Montanhas Carecas"
+    //  ├─ _link = "montanhas.jpg"
+    //  ├─ _templateSelector = ".elements"
+    //  ├─ _handleImageClick = openPopup_img
+    //  ├─ _handleDelete = excluir_card
+    //  └─ _element = <div class="element"> ... </div>
+    // console.log("this._element = ", this._element);
     this._setEventListeners();
-
-    this._element.querySelector(".element__title").textContent = this._name;
-    const elementImage = this._element.querySelector(".element__image");
-    elementImage.src = this._link;
-    elementImage.alt = this._name;
+    this._element.querySelector(".element__title").textContent = this._name; //A propriedade criada _element recebe o título (item.name) dentro da <div class="element__title">
+    this._element.querySelector(".element__image").src = this._link;
+    this._element.querySelector(".element__image").alt = this._name;
 
     return this._element;
   }

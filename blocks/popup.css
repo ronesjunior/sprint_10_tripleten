@@ -22,6 +22,7 @@
   max-height: 100%;
   position: relative;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  font-family: "Inter", Arial, sans-serif !important;
 }
 
 .popup__titulo {
@@ -111,7 +112,7 @@ input {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 
 .popup__input:focus {

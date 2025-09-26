@@ -1,7 +1,6 @@
 import Card from "./Card.js";
-import { openPopup_img } from "./utils.js";
-import { excluir_card } from "./utils.js";
-// import FormValidator from "./FormValidator.js";
+import { openPopup_img, excluir_card } from "./utils.js";
+import FormValidator from "./FormValidator.js";
 
 // ABRIR POPUP PARA EDITAR O NOME E SOBRE MIM
 
@@ -40,62 +39,13 @@ function AlterarPerfilFormSubmit(evt) {
   perfilNome.textContent = valorNome;
   perfilSobre.textContent = valorSobre;
 
-  // A MANEIRA ABAIXO É TAMBÉM CORRETA E MAIS CURTA PARA SUBSTITUIR TODAS AS LINHA DE CÓDIGO ACIMA
-  // let entradaNome = document.querySelector("#nome").value;
-  // let entradaSobre = document.querySelector("#sobre").value;
-  // document.querySelector(".profile__title").textContent = entradaNome;
-  // document.querySelector(".profile__description").textContent = entradaSobre;
-
   fecharPopup();
 }
 
 formElement.addEventListener("submit", AlterarPerfilFormSubmit); // Conecta a função ao formulário
 
 ///////////////////////////////////////////////////////////////////////////
-// MUDAR A COR DO BOTÃO 'LIKE' PARA PRETO DA SECTION ELEMENT
-
-const likeButtons = document.querySelectorAll(".element__like-button");
-
-likeButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const icon = button.querySelector(".element__like-icon");
-    icon.classList.toggle("element__like-icon_active"); // alterna a classe para mudar cor/estilo
-  });
-});
-
-/////////////////////////////////////////////////////////////////////////////
-// ABRIR POPUP PARA INSERIR IMAGENS (CARD)
-
-const addButton = document.querySelector(".profile__add-button");
-const closeButton = document.querySelector(".popup-add-card__fechar-botao");
-const popupcard = document.querySelector(".popup-add-card");
-
-function openPopup() {
-  popupcard.style.display = "flex";
-}
-
-function closePopup() {
-  popupcard.style.display = "none";
-}
-
-addButton.addEventListener("click", openPopup);
-closeButton.addEventListener("click", closePopup);
-
-///////////////////////////////////////////////////////////////////////////
-// EXCLUIR IMAGEM (CARD) NO CONTAINER
-
-// const cardsContainer = document.querySelector(".elements");
-
-// cardsContainer.addEventListener("click", (evt) => {
-//   if (evt.target.classList.contains("element__lixeira-icon")) {
-//     const cardToDelete = evt.target.closest(".element");
-//     cardToDelete.remove();
-//   }
-// });
-
-////////////////////////////////////////////////////////////////////////////////////////////////
 // CRIAR OS CARDS ATRAVÉS DO VETOR initialCards
-
 const initialCards = [
   {
     name: "Vale de Yosemite",
@@ -124,13 +74,14 @@ const initialCards = [
 ];
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//Refatoração código
+//Refatoração do código
 
-const cardsContainer = document.querySelector(".elements-container");
-const form = document.querySelector("#popup-add-card__form");
-const containerCards = document.querySelector(".elements");
+const cardsContainer = document.querySelector(".elements-container"); // variável que recebe uma div com a classe .elements-container que segue o fluxo da estrutura e que receberá todos os dados do template
+const popupOpen = document.querySelector(".profile__add-button");
+const popupClose = document.querySelector(".popup-add-card__fechar-botao");
+const popupcard = document.querySelector(".popup-add-card");
 
-// Quando criar os cards iniciais:
+// INSTANCIAR A CLASSE CARD
 initialCards.forEach((item) => {
   const card = new Card(
     item.name,
@@ -138,14 +89,74 @@ initialCards.forEach((item) => {
     ".elements",
     openPopup_img,
     excluir_card
-  );
-  const cardElement = card.generateCard();
-  cardsContainer.append(cardElement);
+  ); // card é o objeto instanciando com as propriedades recebidas do array e das funções
+  // console.log(card);
+  const cardElement = card.generateCard(); // Grava os dados do método generateCard() que está dentro da classe Card na variável cardElement. Coloca-se o card.generateCard() pois generateCard() é um método da classe Card.
+  cardsContainer.append(cardElement); // pega o card e adiciona dentro do contêiner. Se houver outros cards, este vai entrar depois deles.
 });
 
-// Quando criar novos cards no formulário:
-function criarCard(titulo, imagem) {
-  const card = new Card(titulo, imagem, ".elements", openPopup_img);
-  const cardElement = card.generateCard();
-  cardsContainer.prepend(cardElement);
+// ABRIR O POPUP PARA ADICIONAR CARD
+popupOpen.addEventListener("click", () => {
+  // popupcard.style.display = "flex";
+  popupcard.classList.add("popup-add-card_opened");
+});
+
+// FECHAR O POPUP PARA ADICIONAR CARD
+popupClose.addEventListener("click", () => {
+  // popupcard.style.display = "none";
+  popupcard.classList.remove("popup-add-card_opened");
+});
+
+////////////////////////////////////////////////////////////////////////////////////
+//  CRIAR A INSTÂNCIA (OBJETO) PARA VALIDAR FORMULÁRIO DE ADIÇÃO DE CARD
+const formAddcard = document.querySelector("#popup-add-card__form");
+const cardNameInput = document.querySelector("#titulo");
+const cardImageInput = document.querySelector("#link");
+const formAddperfil = document.querySelector("#popup__form");
+
+const configAdd = {
+  popupSelector: "#popup-add-card",
+  formSelector: "#popup-add-card__form",
+  inputSelector: ".popup-add-card__entrada",
+  submitButtonSelector: ".popup-add-card__criar-botao",
+  inactiveButtonClass: "popup-add-card__criar-botao_inativo",
+  inputErrorClass: "popup-add-card__entrada_tipo_erro",
+  errorClass: "popup-add-card__entrada-error_ativo",
+};
+
+const configPerfil = {
+  popupSelector: "#popup",
+  formSelector: "#poppup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: "#popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
+
+// 1. Criar as instâncias
+
+const formValidatorAddcard = new FormValidator(configAdd, formAddcard);
+const formValidatorAddperfil = new FormValidator(configPerfil, formAddperfil);
+
+// 2. Ativar a validação (aqui que a mágica acontece!)
+formValidatorAddcard.enableValidation();
+formValidatorAddperfil.enableValidation();
+
+function handleCardCreation(evt) {
+  evt.preventDefault();
+  const card = new Card(
+    cardNameInput.value,
+    cardImageInput.value,
+    ".elements",
+    openPopup_img,
+    excluir_card
+  ); // card é o objeto instanciando com as propriedades recebidas do array e das funções
+  // console.log(card);
+  const cardElement = card.generateCard(); // Grava os dados do método generateCard() que está dentro da classe Card na variável cardElement. Coloca-se o card.generateCard() pois generateCard() é um método da classe Card.
+  cardsContainer.append(cardElement); // pega o card e adiciona dentro do contêiner. Se houver outros cards, este vai entrar depois deles.
+  popupcard.classList.remove("popup-add-card_opened");
+  formAddcard.reset();
 }
+
+formAddcard.addEventListener("submit", handleCardCreation);
