@@ -1,40 +1,43 @@
 import Card from "./Card.js";
-import { openPopup_img, excluir_card } from "./utils.js";
+import { openPopup_img, excluir_card, closePopup_img } from "./utils.js";
 import FormValidator from "./FormValidator.js";
 
-// ABRIR POPUP PARA EDITAR O NOME E SOBRE MIM
+// ABRIR POPUP PARA EDITAR O PERFIL NOME E SOBRE MIM
 
-const popup = document.querySelector(".popup");
-const editBotao = document.querySelector(".profile__square");
+const popup = document.querySelector(".popup"); // variável do popup do perfil interior inclusive lado de fora
+const editBotao = document.querySelector(".profile__square"); // classe para abrir o popup perfil
 const fecharBotao = document.querySelector(".popup__fechar-botao");
 
+// ABRIR O POPUP PARA ADICIONAR CARD
 function abrirPopup() {
   popup.style.display = "flex";
 }
 
-function fecharPopup() {
+// FECHAR O POPUP PARA ADICIONAR CARD
+export function fecharPopup() {
   popup.style.display = "none";
 }
 
+// CHAMANDO AS FUNÇÕES abrirPopup e fecharPopup
 editBotao.addEventListener("click", abrirPopup);
 fecharBotao.addEventListener("click", fecharPopup);
 
 ///////////////////////////////////////////////////////////////////////////
 // ALTERAR O NOME E O SOBRE MIM DO POPUUP
 
-let formElement = document.querySelector("#popup__form");
+const formElement = document.querySelector("#popup__form");
 
 function AlterarPerfilFormSubmit(evt) {
   evt.preventDefault();
 
-  let entradaNome = document.querySelector("#nome");
-  let entradaSobre = document.querySelector("#sobre");
+  const entradaNome = document.querySelector("#nome");
+  const entradaSobre = document.querySelector("#sobre");
 
-  let valorNome = entradaNome.value;
-  let valorSobre = entradaSobre.value;
+  const valorNome = entradaNome.value;
+  const valorSobre = entradaSobre.value;
 
-  let perfilNome = document.querySelector(".profile__title");
-  let perfilSobre = document.querySelector(".profile__description");
+  const perfilNome = document.querySelector(".profile__title");
+  const perfilSobre = document.querySelector(".profile__description");
 
   perfilNome.textContent = valorNome;
   perfilSobre.textContent = valorSobre;
@@ -75,13 +78,13 @@ const initialCards = [
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Refatoração do código
+// INSTANCIAR A CLASSE CARD
 
 const cardsContainer = document.querySelector(".elements-container"); // variável que recebe uma div com a classe .elements-container que segue o fluxo da estrutura e que receberá todos os dados do template
-const popupOpen = document.querySelector(".profile__add-button");
+const popupOpen = document.querySelector(".profile__add-button"); // variável que chama a classe do botão para abrir o popup de add card
 const popupClose = document.querySelector(".popup-add-card__fechar-botao");
 const popupcard = document.querySelector(".popup-add-card");
 
-// INSTANCIAR A CLASSE CARD
 initialCards.forEach((item) => {
   const card = new Card(
     item.name,
@@ -95,25 +98,22 @@ initialCards.forEach((item) => {
   cardsContainer.append(cardElement); // pega o card e adiciona dentro do contêiner. Se houver outros cards, este vai entrar depois deles.
 });
 
-// ABRIR O POPUP PARA ADICIONAR CARD
-popupOpen.addEventListener("click", () => {
-  // popupcard.style.display = "flex";
-  popupcard.classList.add("popup-add-card_opened");
-});
-
 // FECHAR O POPUP PARA ADICIONAR CARD
-popupClose.addEventListener("click", () => {
-  // popupcard.style.display = "none";
-  popupcard.classList.remove("popup-add-card_opened");
-});
+export function fecharPopup_add() {
+  popupcard.style.display = "none";
+}
+
+// ABRIR O POPUP PARA ADICIONAR CARD
+function abrirPopup_add() {
+  popupcard.style.display = "flex";
+}
+
+// CHAMANDO AS FUNÇÕES abrirPopup_add e fecharPopup_add
+popupClose.addEventListener("click", fecharPopup_add);
+popupOpen.addEventListener("click", abrirPopup_add);
 
 ////////////////////////////////////////////////////////////////////////////////////
-//  CRIAR A INSTÂNCIA (OBJETO) PARA VALIDAR FORMULÁRIO DE ADIÇÃO DE CARD
-const formAddcard = document.querySelector("#popup-add-card__form");
-const cardNameInput = document.querySelector("#titulo");
-const cardImageInput = document.querySelector("#link");
-const formAddperfil = document.querySelector("#popup__form");
-
+//  CRIAR As CONFIGS DE VALIDACAO
 const configAdd = {
   popupSelector: "#popup-add-card",
   formSelector: "#popup-add-card__form",
@@ -126,23 +126,29 @@ const configAdd = {
 
 const configPerfil = {
   popupSelector: "#popup",
-  formSelector: "#poppup__form",
+  formSelector: "#popup__form",
   inputSelector: ".popup__input",
   submitButtonSelector: "#popup__button",
   inactiveButtonClass: "popup__button_disabled",
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
 };
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/////VALIDAR FORMULÁRIOS NOS INPUT E BOTÕES PARA ADIÇÃO DE CARD E EDIÇÃO DO PERFIL
 // 1. Criar as instâncias
-
-const formValidatorAddcard = new FormValidator(configAdd, formAddcard);
-const formValidatorAddperfil = new FormValidator(configPerfil, formAddperfil);
+const formAddcard = document.querySelector("#popup-add-card__form");
+const formAddperfil = document.querySelector("#popup__form");
+const cardNameInput = document.querySelector("#titulo");
+const cardImageInput = document.querySelector("#link");
+const formValidatorAddcard = new FormValidator(configAdd, formAddcard); // cria um objeto para validar as configurações para adicionar cartão
+const formValidatorAddperfil = new FormValidator(configPerfil, formAddperfil); // cria um objeto para validar as configurações para alterar o perfil
+const popupImage = document.querySelector(".popup-img");
 
 // 2. Ativar a validação (aqui que a mágica acontece!)
 formValidatorAddcard.enableValidation();
 formValidatorAddperfil.enableValidation();
 
+// 3. Criar cartões
 function handleCardCreation(evt) {
   evt.preventDefault();
   const card = new Card(
@@ -152,11 +158,35 @@ function handleCardCreation(evt) {
     openPopup_img,
     excluir_card
   ); // card é o objeto instanciando com as propriedades recebidas do array e das funções
-  // console.log(card);
   const cardElement = card.generateCard(); // Grava os dados do método generateCard() que está dentro da classe Card na variável cardElement. Coloca-se o card.generateCard() pois generateCard() é um método da classe Card.
   cardsContainer.append(cardElement); // pega o card e adiciona dentro do contêiner. Se houver outros cards, este vai entrar depois deles.
-  popupcard.classList.remove("popup-add-card_opened");
-  formAddcard.reset();
+  popupcard.classList.remove("popup-add-card_opened"); // remove o css display: flex para fechar o popup logo após clicar em salvar (submit do form)
+  formAddcard.reset(); // limpa todos os campos do popup após fechá-lo
 }
 
 formAddcard.addEventListener("submit", handleCardCreation);
+
+// FECHAR CLICANDO NO ESC
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closePopup_img(); // fecha popup de imagem (função exportada do utils.js)
+    fecharPopup(); // fecha popup de perfil
+    fecharPopup_add(); // fecha popup de adicionar card
+    console.log("ESC: fechei todos os popups");
+  }
+});
+
+// FECHAR CLICANDO FORA DOS POPUPS
+document.addEventListener("click", (e) => {
+  if (e.target === popupImage) {
+    popupImage.classList.remove("popup-img__opened_img");
+  }
+
+  if (e.target === popup) {
+    fecharPopup();
+  }
+
+  if (e.target === popupcard) {
+    fecharPopup_add();
+  }
+});

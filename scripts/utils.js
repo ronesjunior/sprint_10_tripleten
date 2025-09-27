@@ -1,4 +1,6 @@
 // utils.js
+// import { fecharPopup_add, fecharPopup } from "./index.js";
+
 const popupImage = document.querySelector(".popup-img");
 const popupImg = popupImage.querySelector(".popup-img__image");
 const popupCaption = popupImage.querySelector(".popup-img__caption");
@@ -21,6 +23,6 @@ popupClose.addEventListener("click", closePopup_img);
 // Função para excluir cards
 export const excluir_card = (element) => {
   // recebe a classe .element selecionada com click pelo deleteButton.addEventListener do método _setEventListeners dentro da class card em card.js
-  console.log("elemento excluído = ", element);
+  // console.log("elemento excluído = ", element);
   element.remove();
 };

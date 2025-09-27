@@ -22,7 +22,7 @@ export default class FormValidator {
     const errorElement = this._formElement.querySelector(
       `.${inputElement.id}-error`
     );
-    console.log(errorElement);
+    // console.log(errorElement);
     if (!inputElement.validity.valid) {
       errorElement.textContent = inputElement.validationMessage;
       inputElement.classList.add(this._config.inputErrorClass);

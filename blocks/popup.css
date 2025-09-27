@@ -112,7 +112,7 @@ input {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: block;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 
 .popup__input:focus {

@@ -66,12 +66,12 @@ export default class Card {
     //  ├─ _handleImageClick = openPopup_img
     //  ├─ _handleDelete = excluir_card
     //  └─ _element = <div class="element"> ... </div>
-    // console.log("this._element = ", this._element);
-    this._setEventListeners();
+
     this._element.querySelector(".element__title").textContent = this._name; //A propriedade criada _element recebe o título (item.name) dentro da <div class="element__title">
     this._element.querySelector(".element__image").src = this._link;
     this._element.querySelector(".element__image").alt = this._name;
 
-    return this._element;
+    this._setEventListeners();
+    return this._element; // generateCard() retorna com o objeto instanciado com as propriedades
   }
 }
